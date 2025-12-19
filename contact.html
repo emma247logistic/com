@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Emma247 Logistics</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo-group">
+        <a href="index.html" class="logo-link">
+          <img src="images/logo.jpg" alt="Emma247 Logistics" class="logo-image" />
+        </a>
+        <div class="logo-text">
+          <a href="index.html" class="logo-main">Emma247 Logistics</a>
+          <span class="logo-sub">Swift. Secure. Nationwide.</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="contact.html" class="nav-link active">Contact Us</a>
+      </nav>
+      <div class="auth-actions">
+        <button id="btn-open-signin" class="btn btn-ghost">Sign In</button>
+        <button id="btn-open-signup" class="btn btn-primary">Sign Up</button>
+        <div id="user-pill" class="user-pill hidden">
+          <span id="user-email"></span>
+          <button id="btn-logout" class="btn btn-ghost btn-xs">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section-inner contact-grid">
+          <div>
+            <h2>Contact Us</h2>
+            <p>
+              Ready to move with Emma247 Logistics? Reach out to our support team any
+              time for corporate accounts, bulk shipments, or custom delivery needs.
+            </p>
+            <ul class="contact-list">
+              <li><strong>Email</strong>: support@emma247logistics.com</li>
+              <li><strong>Phone</strong>: +234 800 247 247 247</li>
+              <li><strong>Head Office</strong>: Lagos, Nigeria</li>
+            </ul>
+          </div>
+          <form class="contact-form">
+            <div class="form-group">
+              <label for="contact-name">Name</label>
+              <input id="contact-name" type="text" placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email</label>
+              <input id="contact-email" type="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" rows="4" placeholder="Tell us about your needs"></textarea>
+            </div>
+            <button type="button" class="btn btn-secondary">Send Message</button>
+            <p class="contact-note">
+              (This form is a demo only. Connect it to Supabase or email later.)
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Emma247 Logistics. All rights reserved.</p>
+    </footer>
+
+    <!-- Auth Modal (shared across pages) -->
+    <div id="auth-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button class="modal-close" id="auth-close">&times;</button>
+        <div class="modal-header">
+          <h2 id="auth-title">Welcome to Emma247 Logistics</h2>
+          <p id="auth-subtitle">Sign in or create an account to continue.</p>
+        </div>
+        <div class="modal-tabs">
+          <button id="tab-signin" class="tab active">Sign In</button>
+          <button id="tab-signup" class="tab">Sign Up</button>
+        </div>
+        <div class="modal-body">
+          <form id="signin-form" class="auth-form">
+            <div class="form-group">
+              <label for="signin-email">Email</label>
+              <input id="signin-email" type="email" required />
+            </div>
+            <div class="form-group">
+              <label for="signin-password">Password</label>
+              <input id="signin-password" type="password" minlength="6" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Sign In</button>
+            <p class="auth-hint">
+              No account yet?
+              <button type="button" class="link-button" id="link-to-signup">Sign up</button>
+            </p>
+          </form>
+
+          <form id="signup-form" class="auth-form hidden">
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input id="signup-email" type="email" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password (min 6 characters)</label>
+              <input id="signup-password" type="password" minlength="6" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Create Account</button>
+            <p class="auth-hint">
+              Already have an account?
+              <button type="button" class="link-button" id="link-to-signin">Sign in</button>
+            </p>
+          </form>
+
+          <div id="auth-message" class="auth-message"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- Supabase + App -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.0/dist/umd/supabase.min.js"
+      defer
+    ></script>
+    <script src="app.js" defer></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emma247 Logistics</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo-group">
+        <a href="index.html" class="logo-link">
+          <img src="images/logo.jpg" alt="Emma247 Logistics" class="logo-image" />
+        </a>
+        <div class="logo-text">
+          <a href="index.html" class="logo-main">Emma247 Logistics</a>
+          <span class="logo-sub">Swift. Secure. Nationwide.</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="contact.html" class="nav-link">Contact Us</a>
+      </nav>
+      <div class="auth-actions">
+        <button id="btn-open-signin" class="btn btn-ghost">Sign In</button>
+        <button id="btn-open-signup" class="btn btn-primary">Sign Up</button>
+        <div id="user-pill" class="user-pill hidden">
+          <span id="user-email"></span>
+          <button id="btn-logout" class="btn btn-ghost btn-xs">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section id="home" class="hero">
+        <div class="hero-content">
+          <h1>Timely Delivery Across The World</h1>
+          <p>
+            Emma247 Logistics keeps your business moving with real‑time tracking,
+            transparent pricing and lightning‑fast deliveries.
+          </p>
+          <div class="hero-cta">
+            <button id="btn-hero-ship" class="btn btn-primary">Send a Shipment</button>
+            <button id="btn-hero-track" class="btn btn-secondary">Track Shipment</button>
+          </div>
+          <div class="hero-badges">
+            <span>24/7 Support</span>
+            <span>Worldwide Coverage</span>
+            <span>Insured Deliveries</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="hero-card-title">Live Shipment Snapshot</div>
+            <p class="hero-card-label">Today’s Active Shipments</p>
+            <p class="hero-card-big" id="hero-active-count">--</p>
+            <p class="hero-card-foot">Updated in real time via Supabase</p>
+          </div>
+          <div class="hero-image-placeholder">
+            <div class="truck-icon">🚚</div>
+            <p>Swift delivery, every time.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Tools Row -->
+      <section class="tools-grid">
+        <!-- Rate Calculator (Public) -->
+        <div class="card" id="rate-calculator-card">
+          <h2>Global Rate Calculator</h2>
+          <p class="card-sub">
+            Get an instant estimate to any country with different courier options and sizes.
+          </p>
+          <form id="rate-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rate-courier">Courier Company</label>
+                <select id="rate-courier" required>
+                  <option value="">Select courier</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="rate-size">Size of Goods</label>
+                <select id="rate-size" required>
+                  <option value="">Select size</option>
+                  <option value="small">Small (Documents / Small Parcel)</option>
+                  <option value="medium">Medium (Standard Box)</option>
+                  <option value="large">Large (Bulk / Freight)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rate-origin-country">Origin Country</label>
+                <select id="rate-origin-country" required>
+                  <option value="">Select origin country</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="rate-origin">Origin City</label>
+                <select id="rate-origin" required>
+                  <option value="">Select origin city</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rate-destination-country">Destination Country</label>
+                <select id="rate-destination-country" required>
+                  <option value="">Select destination country</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="rate-destination">Destination City</label>
+                <select id="rate-destination" required>
+                  <option value="">Select destination city</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rate-weight">Weight (kg)</label>
+                <input id="rate-weight" type="number" min="0.1" step="0.1" placeholder="e.g. 5" required />
+              </div>
+              <div class="form-group">
+                <label>Rate (₦/kg)</label>
+                <input id="rate-per-kg" type="text" readonly placeholder="Loading from Supabase..." />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Calculate Cost</button>
+          </form>
+          <div id="rate-result" class="rate-result hidden"></div>
+        </div>
+
+        <!-- Shipment Tracker (Requires Auth) -->
+        <div class="card">
+          <h2>Track Shipment</h2>
+          <p class="card-sub">
+            Enter your tracking number to see where your shipment is right now.
+          </p>
+          <form id="track-form">
+            <div class="form-group">
+              <label for="track-number">Tracking Number</label>
+              <input
+                id="track-number"
+                type="text"
+                placeholder="e.g. EM247-2025-00001"
+                required
+              />
+            </div>
+            <button class="btn btn-secondary" type="submit">Track Now</button>
+          </form>
+          <div id="track-result" class="track-result"></div>
+        </div>
+
+        <!-- Send Shipment (Requires Auth) -->
+        <div class="card">
+          <h2>Send a Shipment</h2>
+          <p class="card-sub">
+            Book a new shipment in a few clicks. A unique tracking number is created
+            automatically for you.
+          </p>
+          <form id="send-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="send-courier">Courier Company</label>
+                <select id="send-courier" required>
+                  <option value="">Select courier</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="send-size">Size of Goods</label>
+                <select id="send-size" required>
+                  <option value="">Select size</option>
+                  <option value="small">Small (Documents / Small Parcel)</option>
+                  <option value="medium">Medium (Standard Box)</option>
+                  <option value="large">Large (Bulk / Freight)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="send-origin-country">Origin Country</label>
+                <select id="send-origin-country" required>
+                  <option value="">Select origin country</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="send-origin">Origin City</label>
+                <select id="send-origin" required>
+                  <option value="">Select origin city</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="send-destination-country">Destination Country</label>
+                <select id="send-destination-country" required>
+                  <option value="">Select destination country</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="send-destination">Destination City</label>
+                <select id="send-destination" required>
+                  <option value="">Select destination city</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="send-weight">Weight (kg)</label>
+                <input id="send-weight" type="number" min="0.1" step="0.1" required />
+              </div>
+              <div class="form-group">
+                <label for="send-description">Goods Description</label>
+                <input id="send-description" type="text" placeholder="e.g. Electronics" required />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Create Shipment</button>
+          </form>
+          <div id="send-result" class="send-result"></div>
+        </div>
+      </section>
+
+      <!-- Authenticated Customer Area -->
+      <section id="dashboard" class="dashboard hidden">
+        <div class="dashboard-header">
+          <h2>Your Shipments</h2>
+          <p>Track and manage all shipments linked to your account.</p>
+        </div>
+        <div id="shipments-list" class="shipments-list empty-state">
+          <p>You have no shipments yet. Use “Send a Shipment” to create one.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Emma247 Logistics. All rights reserved.</p>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button class="modal-close" id="auth-close">&times;</button>
+        <div class="modal-header">
+          <h2 id="auth-title">Welcome to Emma247 Logistics</h2>
+          <p id="auth-subtitle">Sign in or create an account to continue.</p>
+        </div>
+        <div class="modal-tabs">
+          <button id="tab-signin" class="tab active">Sign In</button>
+          <button id="tab-signup" class="tab">Sign Up</button>
+        </div>
+        <div class="modal-body">
+          <form id="signin-form" class="auth-form">
+            <div class="form-group">
+              <label for="signin-email">Email</label>
+              <input id="signin-email" type="email" required />
+            </div>
+            <div class="form-group">
+              <label for="signin-password">Password</label>
+              <input id="signin-password" type="password" minlength="6" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Sign In</button>
+            <p class="auth-hint">
+              No account yet?
+              <button type="button" class="link-button" id="link-to-signup">Sign up</button>
+            </p>
+          </form>
+
+          <form id="signup-form" class="auth-form hidden">
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input id="signup-email" type="email" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password (min 6 characters)</label>
+              <input id="signup-password" type="password" minlength="6" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Create Account</button>
+            <p class="auth-hint">
+              Already have an account?
+              <button type="button" class="link-button" id="link-to-signin">Sign in</button>
+            </p>
+          </form>
+
+          <div id="auth-message" class="auth-message"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simple Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- Supabase + App (deferred so Supabase loads before app.js runs) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.0/dist/umd/supabase.min.js"
+      defer
+    ></script>
+    <script src="app.js" defer></script>
+  </body>
+</html>
+
+
